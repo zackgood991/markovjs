@@ -27,13 +27,19 @@
     OTHER DEALINGS IN THE SOFTWARE.
 */
 
-function generate_markov_table(text, look_forward = 4) {
+function generate_markov_table(text, look_forward = 4, active_log = false) {
     let table = {};
+    let oldPer = 0;
 
     // now walk through the text and make the index table
     for (let i = 0; i < text.length; i++) {
         const char = text.substring(i, i + look_forward);
-        if (!Object.keys(table).includes(char)) table[char] = {};
+        table[char] = {};
+
+        if(!active_log) continue;
+        const curPer = Math.floor(50 * (i / (text.length == 0 ? 1 : text.length)));
+        if(oldPer != curPer) console.log(`Table: ${curPer}%`);
+        oldPer = curPer;
     }
 
     // walk the array again and count the numbers
@@ -46,6 +52,11 @@ function generate_markov_table(text, look_forward = 4) {
         } else {
             table[char_index][char_count] = 1;
         }
+
+        if(!active_log) continue;
+        const curPer = 50 + Math.floor(50 * (i / (text.length == 4 ? 1 : (text.length - look_forward))));
+        if(oldPer != curPer) console.log(`Table: ${curPer}%`);
+        oldPer = curPer;
     }
 
     return table;
