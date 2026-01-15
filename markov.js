@@ -75,11 +75,11 @@ function generate_markov_text(length, table, look_forward = 4) {
 function return_weighted_char(array) {
     if (!array) return null;
 
-    const total = array.reduce((a,b) => a+b, 0);
-    let rand  = 1 + Math.round(Math.random()*(total-1));
-
     const arrVals = Object.values(array);
     const arrKeys = Object.keys  (array);
+
+    const total = arrVals.reduce((a,b) => a+b, 0);
+    let rand = 1 + Math.round(Math.random()*(total-1));
     for (let i = 0; i < arrKeys.length; i++) {  // (array as item => weight) {
         if (rand <= arrVals[i]) return arrKeys[i];
         rand -= arrVals[i];
