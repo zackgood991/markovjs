@@ -51,7 +51,7 @@ function generate_markov_table(text, look_forward = 4) {
     return table;
 }
 
-function generate_markov_text(length, table, look_forward = 4) {
+function generate_markov_text(length, table, look_forward = 4, active_log = false) {
     // get first character
     const tabKeys = Object.keys(table);
     let char = tabKeys[Math.floor(Math.random()*tabKeys.length)];
@@ -61,6 +61,7 @@ function generate_markov_text(length, table, look_forward = 4) {
         const newchar = return_weighted_char(table[char]);
 
         if (newchar != null) {
+            if (active_log && typeof process !== "undefined") process.stdout.write(newchar);
             char = newchar;
             o += newchar;
         } else {
