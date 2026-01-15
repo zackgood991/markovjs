@@ -88,3 +88,9 @@ function return_weighted_char(array) {
 
     return null; // safety
 }
+
+if(typeof module !== "undefined") module.exports = {
+    return_weighted_char: return_weighted_char,
+    generate_markov_text: generate_markov_text,
+    generate_markov_table: generate_markov_table
+};
