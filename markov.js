@@ -57,7 +57,7 @@ function generate_markov_table(text, look_forward = 4, active_log = false) {
         const char_index = look_forward == 0 ? textSplit[i    ] : text.substring(i, i + look_forward);
         const char_count = look_forward == 0 ? textSplit[i + 1] :text.substring(i + look_forward, i + look_forward*2);
 
-        if (Object.keys(table[char_index]).includes(char_count)) {
+        if (table[char_index].hasOwnProperty(char_count)) {
             table[char_index][char_count]++;
         } else {
             table[char_index][char_count] = 1;
@@ -105,11 +105,11 @@ function generate_markov_text(length, table, look_forward = 4, active_log = fals
 function return_weighted_char(array) {
     if (!array) return null;
 
-    const arrVals = Object.values(array);
     const arrKeys = Object.keys  (array);
+    const arrVals = arrKeys.map(a => array[a]);
 
-    const total = arrVals.reduce((a,b) => a+b, 0);
-    let rand = 1 + Math.round(Math.random()*(total-1));
+    const total = arrVals.reduce((a, b) => a + b, 0);
+    let rand = 1 + Math.round(Math.random() * (total - 1));
     for (let i = 0; i < arrKeys.length; i++) {  // (array as item => weight) {
         if (rand <= arrVals[i]) return arrKeys[i];
         rand -= arrVals[i];
